@@ -2,7 +2,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 # Title and Introduction
-st.title("EASY24 Efficiency Calculator")
+st.title("Efficiency Calculator")
 st.write("Make strategic decisions backed by data. Understand your potential savings and growth opportunities by shifting orders to our platform.")
 
 # Input Metrics
