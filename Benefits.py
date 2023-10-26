@@ -1,6 +1,5 @@
 import streamlit as st
 import matplotlib.pyplot as plt
-import numpy as np
 
 # Title and Introduction
 st.title("EASY24 Efficiency Calculator")
@@ -24,26 +23,22 @@ st.write(f"**Total Orders Reduced**: {orders_reduced:,}\n**Total Direct Cost Sav
 # Output Metrics
 st.subheader(f"Strategic Insights for {annual_orders:,} Orders & {sales_reps} Sales Reps")
 
-# First Waterfall Chart for Order Reduction
+# Pie Chart for Order Volume
 fig1, ax1 = plt.subplots()
-labels1 = ['Total Orders', 'Orders Reduced']
-values1 = [annual_orders, -orders_reduced]
-cumulative_values1 = np.cumsum(values1)
-colors1 = ['#1f77b4', '#2ca02c']
-ax1.bar(labels1, np.abs(values1), bottom=cumulative_values1 - values1, color=colors1)
-ax1.set_title("Order Reduction Waterfall Chart")
-for i, value in enumerate(cumulative_values1):
-    ax1.text(i, value, str(round(values1[i], 2)), ha='center', va='bottom')
+labels1 = ['Orders Through Platform', 'Other Orders']
+sizes1 = [orders_reduced, annual_orders - orders_reduced]
+colors1 = ['#2ca02c', '#1f77b4']
+ax1.pie(sizes1, labels=labels1, colors=colors1, autopct='%1.1f%%', startangle=90)
+ax1.set_title('Order Volume Distribution')
+ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 st.pyplot(fig1)
 
-# Second Waterfall Chart for Monetary Savings
+# Pie Chart for Monetary Savings
 fig2, ax2 = plt.subplots()
-labels2 = ['Baseline Cost (€)', 'Direct Cost Savings (€)']
-values2 = [annual_cost_per_rep * sales_reps, -direct_cost_savings]
-cumulative_values2 = np.cumsum(values2)
-colors2 = ['#1f77b4', '#2ca02c']
-ax2.bar(labels2, np.abs(values2), bottom=cumulative_values2 - values2, color=colors2)
-ax2.set_title("Monetary Savings Waterfall Chart")
-for i, value in enumerate(cumulative_values2):
-    ax2.text(i, value, str(round(values2[i], 2)), ha='center', va='bottom')
+labels2 = ['Direct Cost Savings (€)', 'Remaining Costs (€)']
+sizes2 = [direct_cost_savings, annual_cost_per_rep * sales_reps - direct_cost_savings]
+colors2 = ['#2ca02c', '#1f77b4']
+ax2.pie(sizes2, labels=labels2, colors=colors2, autopct='%1.1f%%', startangle=90)
+ax2.set_title('Monetary Savings Distribution')
+ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 st.pyplot(fig2)
