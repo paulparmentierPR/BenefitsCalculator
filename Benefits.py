@@ -13,36 +13,28 @@ sales_reps = st.number_input("Enter Sales Force Size:", value=40, step=1)
 annual_cost_per_rep = st.number_input("Enter Annual Cost per Sales Rep (in €):", value=50000, step=1000)
 
 # Calculations
+baseline_cost = annual_cost_per_rep * sales_reps
 orders_reduced = annual_orders * 0.2
 direct_cost_savings = annual_cost_per_rep * sales_reps * 0.2
+final_cost = baseline_cost - direct_cost_savings
 
 # Output Metrics
 st.subheader(f"Strategic Insights for {annual_orders:,} Orders & {sales_reps} Sales Reps")
 
-# Bar Chart for Visualization
-labels = ['Orders Reduced', 'Direct Cost Savings (€)']
-values = [orders_reduced, direct_cost_savings]
+# Waterfall Chart
+labels = ['Baseline Cost (€)', 'Orders Reduced', 'Direct Cost Savings (€)', 'Final Cost (€)']
+values = [baseline_cost, 0, -direct_cost_savings, final_cost]
+cumulative_values = np.cumsum(values)
 
-fig, ax1 = plt.subplots()
-
-# First y-axis
-ax1.bar(labels, values, color=['#1f77b4', '#2ca02c'])
-ax1.set_xlabel('Metrics')
-ax1.set_ylabel('Value')
-ax1.set_title('Platform Efficiency Gains')
-
-# Second y-axis for percentages
-ax2 = ax1.twinx()
-percentages = [orders_reduced/annual_orders*100, direct_cost_savings/(annual_cost_per_rep * sales_reps)*100]
-ax2.set_ylabel('Percentage (%)')
-ax2.plot(labels, percentages, color='r', marker='o')
-
-# Adding text labels inside the bars
-for i, (value, percentage) in enumerate(zip(values, percentages)):
-    ax1.text(i, value, f"{value:,}\n({percentage:.1f}%)", ha='center', va='bottom')
+fig, ax = plt.subplots()
+ax.bar(labels, cumulative_values, color=['#1f77b4', '#1f77b4', '#d62728', '#2ca02c'])
+ax.bar(labels, values, color=['#1f77b4', '#1f77b4', '#d62728', '#2ca02c'])
+ax.set_title("Efficiency Gains Waterfall Chart")
+for i, value in enumerate(cumulative_values):
+    ax.text(i, value, str(round(values[i], 2)), ha='center', va='bottom')
 
 st.pyplot(fig)
 
 # Summary Box
 st.subheader("Summary")
-st.write(f"**Total Orders Reduced**: {orders_reduced:,}\n**Total Direct Cost Savings**: €{direct_cost_savings:,}")
+st.write(f"**Baseline Cost**: €{baseline_cost:,}\n**Total Orders Reduced**: {orders_reduced:,}\n**Total Direct Cost Savings**: €{direct_cost_savings:,}\n**Final Cost**: €{final_cost:,}")
