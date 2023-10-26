@@ -6,12 +6,6 @@ import numpy as np
 st.title("EASY24 Efficiency Calculator")
 st.write("Make strategic decisions backed by data. Understand your potential savings and growth opportunities by shifting orders to our platform.")
 
-# Summary Box
-st.subheader("Summary")
-orders_reduced = annual_orders * percent_orders_easy24
-direct_cost_savings = annual_cost_per_rep * sales_reps * percent_orders_easy24
-st.write(f"**Total Orders Reduced**: {orders_reduced:,}\n**Total Direct Cost Savings**: €{direct_cost_savings:,}")
-
 # Input Metrics
 st.subheader("Input Metrics")
 annual_orders = st.number_input("Enter Annual Order Volume:", value=1000000, step=1000)
@@ -22,6 +16,10 @@ percent_orders_easy24 = st.number_input("Enter % of Orders Going Through EASY24:
 # Calculations
 orders_reduced = annual_orders * percent_orders_easy24
 direct_cost_savings = annual_cost_per_rep * sales_reps * percent_orders_easy24
+
+# Summary Box
+st.subheader("Summary")
+st.write(f"**Total Orders Reduced**: {orders_reduced:,}\n**Total Direct Cost Savings**: €{direct_cost_savings:,}")
 
 # Output Metrics
 st.subheader(f"Strategic Insights for {annual_orders:,} Orders & {sales_reps} Sales Reps")
