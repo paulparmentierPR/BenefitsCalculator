@@ -23,4 +23,6 @@ st.write(f"**Total Orders Reduced**: {orders_reduced:,}\n**Total Direct Cost Sav
 # Output Metrics
 st.subheader(f"Strategic Insights for {annual_orders:,} Orders & {sales_reps} Sales Reps")
 
-fig, (ax1, ax2) = plt.subplots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))  # Fixed the issue here
+
+# ... Rest of the code remains the same
