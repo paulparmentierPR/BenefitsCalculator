@@ -32,7 +32,9 @@ labels1 = ['Baseline', 'Reduction', 'Remaining']
 values1 = [annual_orders, -orders_reduced, annual_orders - orders_reduced]
 ax1.bar(labels1, values1, color=['#1f77b4', '#2ca02c', '#1f77b4'], bottom=[0, annual_orders, 0])
 ax1.set_title("Order Reduction")
+ax1.text(0, annual_orders / 2, f'{annual_orders:,}', ha='center', va='center', fontsize=10)
 ax1.text(1, annual_orders - (orders_reduced / 2), f'Reduction\n{orders_reduced:,}\n({order_reduction_percent:.2f}%)', ha='center', va='center', fontweight='bold', fontsize=10)
+ax1.text(2, (annual_orders - orders_reduced) / 2, f'{annual_orders - orders_reduced:,}', ha='center', va='center', fontsize=10)
 
 # Monetary Savings Waterfall Chart
 ax2.set_ylim(0, annual_cost_per_rep * sales_reps * 1.2)
@@ -40,6 +42,8 @@ labels2 = ['Baseline', 'Reduction', 'Remaining']
 values2 = [annual_cost_per_rep * sales_reps, -direct_cost_savings, (annual_cost_per_rep * sales_reps) - direct_cost_savings]
 ax2.bar(labels2, values2, color=['#1f77b4', '#2ca02c', '#1f77b4'], bottom=[0, annual_cost_per_rep * sales_reps, 0])
 ax2.set_title("Monetary Savings")
+ax2.text(0, (annual_cost_per_rep * sales_reps) / 2, f'€{annual_cost_per_rep * sales_reps:,}', ha='center', va='center', fontsize=10)
 ax2.text(1, (annual_cost_per_rep * sales_reps) - (direct_cost_savings / 2), f'Reduction\n€{direct_cost_savings:,}\n({cost_savings_percent:.2f}%)', ha='center', va='center', fontweight='bold', fontsize=10)
+ax2.text(2, ((annual_cost_per_rep * sales_reps) - direct_cost_savings) / 2, f'€{(annual_cost_per_rep * sales_reps) - direct_cost_savings:,}', ha='center', va='center', fontsize=10)
 
 st.pyplot(fig)
