@@ -28,21 +28,17 @@ st.subheader(f"Strategic Insights for {annual_orders:,} Orders & {sales_reps} Sa
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
 
 # Orders Waterfall Chart
-labels1 = ['Total Orders', 'Orders Reduced']
-values1 = [annual_orders, -orders_reduced]
-cumulative_values1 = np.cumsum(values1)
-ax1.bar(labels1, cumulative_values1, color=['#1f77b4', '#2ca02c'])
+labels1 = ['Baseline', 'Reduction', 'Remaining']
+values1 = [annual_orders, -orders_reduced, annual_orders - orders_reduced]
+ax1.bar(labels1, values1, color=['#1f77b4', '#2ca02c', '#1f77b4'], bottom=[0, annual_orders, 0])
 ax1.set_title("Order Reduction")
-for i, value in enumerate(cumulative_values1):
-    ax1.text(i, value, str(round(values1[i], 2)), ha='center', va='bottom')
+ax1.text(1, annual_orders, 'Reduction', ha='center', va='bottom', fontweight='bold', fontsize=12)
 
 # Monetary Savings Waterfall Chart
-labels2 = ['Baseline Cost (€)', 'Direct Cost Savings (€)']
-values2 = [annual_cost_per_rep * sales_reps, -direct_cost_savings]
-cumulative_values2 = np.cumsum(values2)
-ax2.bar(labels2, cumulative_values2, color=['#1f77b4', '#2ca02c'])
+labels2 = ['Baseline', 'Reduction', 'Remaining']
+values2 = [annual_cost_per_rep * sales_reps, -direct_cost_savings, (annual_cost_per_rep * sales_reps) - direct_cost_savings]
+ax2.bar(labels2, values2, color=['#1f77b4', '#2ca02c', '#1f77b4'], bottom=[0, annual_cost_per_rep * sales_reps, 0])
 ax2.set_title("Monetary Savings")
-for i, value in enumerate(cumulative_values2):
-    ax2.text(i, value, f"€{round(values2[i], 2)}\n({(values2[i]/(annual_cost_per_rep * sales_reps))*100:.1f}%)", ha='center', va='bottom')
+ax2.text(1, annual_cost_per_rep * sales_reps, 'Reduction', ha='center', va='bottom', fontweight='bold', fontsize=12)
 
 st.pyplot(fig)
