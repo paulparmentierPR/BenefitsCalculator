@@ -23,22 +23,4 @@ st.write(f"**Total Orders Reduced**: {orders_reduced:,}\n**Total Direct Cost Sav
 # Output Metrics
 st.subheader(f"Strategic Insights for {annual_orders:,} Orders & {sales_reps} Sales Reps")
 
-# Pie Chart for Order Volume
-fig1, ax1 = plt.subplots()
-labels1 = ['Orders Through Platform', 'Other Orders']
-sizes1 = [orders_reduced, annual_orders - orders_reduced]
-colors1 = ['#2ca02c', '#1f77b4']
-ax1.pie(sizes1, labels=labels1, colors=colors1, autopct='%1.1f%%', startangle=90)
-ax1.set_title('Order Volume Distribution')
-ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-st.pyplot(fig1)
-
-# Pie Chart for Monetary Savings
-fig2, ax2 = plt.subplots()
-labels2 = ['Direct Cost Savings (€)', 'Remaining Costs (€)']
-sizes2 = [direct_cost_savings, annual_cost_per_rep * sales_reps - direct_cost_savings]
-colors2 = ['#2ca02c', '#1f77b4']
-ax2.pie(sizes2, labels=labels2, colors=colors2, autopct='%1.1f%%', startangle=90)
-ax2.set_title('Monetary Savings Distribution')
-ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-st.pyplot(fig2)
+fig, (ax1, ax2) = plt.subplots
