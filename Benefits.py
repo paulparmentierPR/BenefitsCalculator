@@ -16,29 +16,30 @@ percent_orders_easy24 = st.number_input("Enter % of Orders Going Through EASY24:
 # Calculations
 orders_reduced = annual_orders * percent_orders_easy24
 direct_cost_savings = annual_cost_per_rep * sales_reps * percent_orders_easy24
+order_reduction_percent = (orders_reduced / annual_orders) * 100
+cost_savings_percent = (direct_cost_savings / (annual_cost_per_rep * sales_reps)) * 100
 
 # Summary Box
 st.subheader("Summary")
-st.write(f"**Total Orders Reduced**: {orders_reduced:,}\n**Total Direct Cost Savings**: €{direct_cost_savings:,}")
-
-# Output Metrics
-st.subheader(f"Strategic Insights for {annual_orders:,} Orders & {sales_reps} Sales Reps")
+st.write(f"**Total Orders Reduced**: {orders_reduced:,} ({order_reduction_percent:.2f}%)\n**Total Direct Cost Savings**: €{direct_cost_savings:,} ({cost_savings_percent:.2f}%)")
 
 # Waterfall Charts
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
 
 # Orders Waterfall Chart
+ax1.set_ylim(0, annual_orders * 1.2)
 labels1 = ['Baseline', 'Reduction', 'Remaining']
 values1 = [annual_orders, -orders_reduced, annual_orders - orders_reduced]
 ax1.bar(labels1, values1, color=['#1f77b4', '#2ca02c', '#1f77b4'], bottom=[0, annual_orders, 0])
 ax1.set_title("Order Reduction")
-ax1.text(1, annual_orders, 'Reduction', ha='center', va='bottom', fontweight='bold', fontsize=12)
+ax1.text(1, annual_orders - (orders_reduced / 2), f'Reduction\n{orders_reduced:,}\n({order_reduction_percent:.2f}%)', ha='center', va='center', fontweight='bold', fontsize=10)
 
 # Monetary Savings Waterfall Chart
+ax2.set_ylim(0, annual_cost_per_rep * sales_reps * 1.2)
 labels2 = ['Baseline', 'Reduction', 'Remaining']
 values2 = [annual_cost_per_rep * sales_reps, -direct_cost_savings, (annual_cost_per_rep * sales_reps) - direct_cost_savings]
 ax2.bar(labels2, values2, color=['#1f77b4', '#2ca02c', '#1f77b4'], bottom=[0, annual_cost_per_rep * sales_reps, 0])
 ax2.set_title("Monetary Savings")
-ax2.text(1, annual_cost_per_rep * sales_reps, 'Reduction', ha='center', va='bottom', fontweight='bold', fontsize=12)
+ax2.text(1, (annual_cost_per_rep * sales_reps) - (direct_cost_savings / 2), f'Reduction\n€{direct_cost_savings:,}\n({cost_savings_percent:.2f}%)', ha='center', va='center', fontweight='bold', fontsize=10)
 
 st.pyplot(fig)
