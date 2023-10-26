@@ -12,9 +12,12 @@ st.subheader("Input Metrics")
 col1, col2 = st.columns(2)
 with col1:
     annual_orders = st.number_input("Enter Annual Order Volume:", value=1000000, step=1000)
-    sales_reps = st.number_input("Enter Sales Force Size:", value=40, step=1)
 with col2:
     percent_orders_easy24 = st.number_input("Enter % of Orders Going Through EASY24:", value=20.0, step=0.1) / 100
+col3, col4 = st.columns(2)
+with col3:
+    sales_reps = st.number_input("Enter Sales Force Size:", value=40, step=1)
+with col4:
     annual_cost_per_rep = st.number_input("Enter Annual Cost per Sales Rep (in €):", value=50000, step=1000)
 
 # Calculations
@@ -35,19 +38,15 @@ ax1, ax2 = axes
 # Order Reduction Waterfall
 labels1 = ['Baseline', 'Reduction', 'Remaining']
 values1 = [annual_orders, -orders_reduced, annual_orders - orders_reduced]
-ax1.barh(labels1, values1, color=['blue', 'green', 'blue'])
-ax1.invert_yaxis()
-ax1.set_xlabel('Order Volume')
-for i, v in enumerate(values1):
-    ax1.text(v, i, f" {v:,}", color='black', va='center', ha='left')
+ax1.bar(labels1, np.cumsum(values1), color=['blue', 'green', 'blue'])
+for i, (value, cum_value) in enumerate(zip(values1, np.cumsum(values1))):
+    ax1.text(i, cum_value, f"{value:,}\n({cum_value:,})", ha='center', va='bottom')
 
 # Monetary Savings Waterfall
 labels2 = ['Baseline', 'Reduction', 'Remaining']
 values2 = [annual_cost_per_rep * sales_reps, -direct_cost_savings, (annual_cost_per_rep * sales_reps) - direct_cost_savings]
-ax2.barh(labels2, values2, color=['blue', 'green', 'blue'])
-ax2.invert_yaxis()
-ax2.set_xlabel('Monetary Savings (€)')
-for i, v in enumerate(values2):
-    ax2.text(v, i, f" €{v:,} ({(v / (annual_cost_per_rep * sales_reps) * 100):.1f}%)", color='black', va='center', ha='left')
+ax2.bar(labels2, np.cumsum(values2), color=['blue', 'green', 'blue'])
+for i, (value, cum_value) in enumerate(zip(values2, np.cumsum(values2))):
+    ax2.text(i, cum_value, f"€{value:,}\n({(value / (annual_cost_per_rep * sales_reps) * 100):.1f}%)\n€{cum_value:,}", ha='center', va='bottom')
 
 st.pyplot(fig)
