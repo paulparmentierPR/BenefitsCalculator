@@ -30,7 +30,7 @@ labels1 = ['Total Orders', 'Orders Reduced']
 values1 = [annual_orders, -orders_reduced]
 cumulative_values1 = np.cumsum(values1)
 colors1 = ['#1f77b4', '#2ca02c']
-ax1.bar(labels1, cumulative_values1, color=colors1)
+ax1.bar(labels1, np.abs(values1), bottom=cumulative_values1 - values1, color=colors1)
 ax1.set_title("Order Reduction Waterfall Chart")
 for i, value in enumerate(cumulative_values1):
     ax1.text(i, value, str(round(values1[i], 2)), ha='center', va='bottom')
@@ -42,7 +42,7 @@ labels2 = ['Baseline Cost (€)', 'Direct Cost Savings (€)']
 values2 = [annual_cost_per_rep * sales_reps, -direct_cost_savings]
 cumulative_values2 = np.cumsum(values2)
 colors2 = ['#1f77b4', '#2ca02c']
-ax2.bar(labels2, cumulative_values2, color=colors2)
+ax2.bar(labels2, np.abs(values2), bottom=cumulative_values2 - values2, color=colors2)
 ax2.set_title("Monetary Savings Waterfall Chart")
 for i, value in enumerate(cumulative_values2):
     ax2.text(i, value, str(round(values2[i], 2)), ha='center', va='bottom')
